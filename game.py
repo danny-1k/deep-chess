@@ -29,35 +29,50 @@ class Game:
 
         return eval
 
-    def choose_move(self, board: chess.Board, depth=0) -> typing.Tuple[float,int]:
-
-        best_eval = float('-inf')
-        best_move_idx = 0
+    def minimax(self, board: chess.Board, depth=0):
 
 
-        for idx,move in enumerate(list(board.legal_moves)):
 
-            board.push(move)
+        if depth == self.depth:
+            return self.get_eval(board),None
+        
+        if board.turn != self.is_human_white:
+            max_eval = float('-inf')
+            max_idx = 0
 
-            if depth == self.depth: # if on last branch, return static evaluation
+            for idx,move in enumerate(list(board.legal_moves)):
+                board.push(move)
                 
-                eval = self.get_eval(board)
+                eval,_ = self.minimax(board,depth+1)
+
+                if eval > max_eval:
+                    max_eval = eval
+                    max_idx = idx
+                # max_eval = max(max_eval,eval)
+
+                board.pop()
+
+            return max_eval,max_idx
+
+        else:
+            min_eval = float('inf')
+            min_idx = 0
+
+            for idx,move in enumerate(list(board.legal_moves)):
+                board.push(move)
                 
-                if eval > best_eval:
-                    best_eval = eval
-                    best_move_idx = idx
+                eval,_ = self.minimax(board,depth+1)
 
-            else: # recusrive evaluation
+                if eval < min_eval:
+                    min_eval = eval
+                    min_idx = idx
+                # min_eval = min(min_eval,eval)
 
-                recursion_out = self.choose_move(board,depth+1)
+                board.pop()
 
-                if recursion_out[0] > best_eval:
-                    best_eval = recursion_out[0]
-                    best_move_idx = idx
+            return min_eval,min_idx
 
-            board.pop()
 
-        return best_eval,best_move_idx
 
     def make_human_move(self, move: str) -> bool:
         try:
@@ -71,7 +86,7 @@ class Game:
     def make_ai_move(self,):
         pass
 
-    def _get_bb(board: chess.Board) -> torch.Tensor:
+    def _get_bb(self,board: chess.Board) -> torch.Tensor:
 
         bb = torch.from_numpy(utils.convert_to_bb(str(board)))\
             .permute(2, 0, 1)\
