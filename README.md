@@ -2,7 +2,7 @@
 Chess AI with neural network based move evaluation
 
 ## Data
-The model was trained on evaluated lichess games https://database.lichess.com
+The model was trained on evaluated lichess games https://database.lichess.org
 
 ## Data processing
 ### 0. Split pgn file into games
