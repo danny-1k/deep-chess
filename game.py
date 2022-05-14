@@ -10,7 +10,7 @@ class Game:
                  is_human_white: typing.Optional[bool] = True,
                  depth: typing.Optional[int] = 2) -> None:
 
-        self.board = chess.Board(board)
+        self.board = chess.Board(board) if board else chess.Board()
         self.is_human_white = is_human_white
         self.depth = depth
 
@@ -82,7 +82,7 @@ class Game:
     def make_ai_move(self,) -> None:
         if self.board.turn != self.is_human_white:
             legal_moves = list(self.board.legal_moves)
-            self.board.push(legal_moves[self.minimax(self.board)[0]])
+            self.board.push(legal_moves[self.minimax(self.board)[1]])
 
     def _get_bb(self, board: chess.Board) -> torch.Tensor:
 
@@ -109,5 +109,5 @@ class Game:
     def is_check(self) -> bool:
         return self.board.is_check()
 
-    def __repr__(self) -> str:
-        return self.board.__repr__()
+    def __str__(self) -> str:
+        return str(self.board)
