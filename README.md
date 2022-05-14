@@ -16,4 +16,4 @@ Note: Having up to 700,000 games (unsplitted pgn file of size 1.5gb approx) can 
 
 ## Model training
 
-### 3. ```python rain_net.py```
+### 3. ```python train_net.py```
