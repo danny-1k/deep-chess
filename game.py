@@ -29,7 +29,7 @@ class Game:
 
         return eval
 
-    def minimax(self, board: chess.Board, depth=0):
+    def minimax(self, board: chess.Board, depth=0) -> typing.Tuple[float,int]:
 
         if depth == self.depth:
             return self.get_eval(board), None
@@ -79,7 +79,7 @@ class Game:
             print('Illegal move')
             return False
 
-    def make_ai_move(self,):
+    def make_ai_move(self,) -> None:
         if self.board.turn != self.is_human_white:
             legal_moves = list(self.board.legal_moves)
             self.board.push(legal_moves[self.minimax(self.board)[0]])
@@ -92,3 +92,6 @@ class Game:
             .float()
 
         return bb
+
+    def __repr__(self) -> str:
+        return self.board.__repr__()
