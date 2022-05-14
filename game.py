@@ -31,19 +31,17 @@ class Game:
 
     def minimax(self, board: chess.Board, depth=0):
 
-
-
         if depth == self.depth:
-            return self.get_eval(board),None
-        
+            return self.get_eval(board), None
+
         if board.turn != self.is_human_white:
             max_eval = float('-inf')
             max_idx = 0
 
-            for idx,move in enumerate(list(board.legal_moves)):
+            for idx, move in enumerate(list(board.legal_moves)):
                 board.push(move)
-                
-                eval,_ = self.minimax(board,depth+1)
+
+                eval, _ = self.minimax(board, depth+1)
 
                 if eval > max_eval:
                     max_eval = eval
@@ -52,16 +50,16 @@ class Game:
 
                 board.pop()
 
-            return max_eval,max_idx
+            return max_eval, max_idx
 
         else:
             min_eval = float('inf')
             min_idx = 0
 
-            for idx,move in enumerate(list(board.legal_moves)):
+            for idx, move in enumerate(list(board.legal_moves)):
                 board.push(move)
-                
-                eval,_ = self.minimax(board,depth+1)
+
+                eval, _ = self.minimax(board, depth+1)
 
                 if eval < min_eval:
                     min_eval = eval
@@ -70,9 +68,7 @@ class Game:
 
                 board.pop()
 
-            return min_eval,min_idx
-
-
+            return min_eval, min_idx
 
     def make_human_move(self, move: str) -> bool:
         try:
@@ -84,9 +80,11 @@ class Game:
             return False
 
     def make_ai_move(self,):
-        pass
+        if self.board.turn != self.is_human_white:
+            legal_moves = list(self.board.legal_moves)
+            self.board.push(legal_moves[self.minimax(self.board)[0]])
 
-    def _get_bb(self,board: chess.Board) -> torch.Tensor:
+    def _get_bb(self, board: chess.Board) -> torch.Tensor:
 
         bb = torch.from_numpy(utils.convert_to_bb(str(board)))\
             .permute(2, 0, 1)\
