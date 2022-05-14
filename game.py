@@ -2,6 +2,7 @@ import typing
 import chess
 import torch
 import utils
+import time
 
 
 class Game:
@@ -25,7 +26,7 @@ class Game:
 
         bb = self._get_bb(board)
         eval = self.net(bb).squeeze().item()
-        eval = eval if board.turn else -eval
+        # eval = eval if board.turn else -eval
 
         return eval
 
@@ -53,7 +54,7 @@ class Game:
             return max_eval, max_idx
 
         else:
-            min_eval = float('inf')
+            min_eval = float('-inf')
             min_idx = 0
 
             for idx, move in enumerate(list(board.legal_moves)):
@@ -61,7 +62,7 @@ class Game:
 
                 eval, _ = self.minimax(board, depth+1)
 
-                if eval < min_eval:
+                if eval > min_eval:
                     min_eval = eval
                     min_idx = idx
                 # min_eval = min(min_eval,eval)
@@ -77,6 +78,7 @@ class Game:
 
         except ValueError:
             print('Illegal move')
+            time.sleep(1)
             return False
 
     def make_ai_move(self,) -> None:
