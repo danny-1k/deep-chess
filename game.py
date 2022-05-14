@@ -29,7 +29,7 @@ class Game:
 
         return eval
 
-    def choose_move(self, board: chess.Board, depth=0) :
+    def choose_move(self, board: chess.Board, depth=0) -> typing.Tuple(float,int):
 
         best_eval = float('-inf')
         best_move_idx = 0
