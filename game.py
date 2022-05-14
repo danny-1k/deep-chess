@@ -6,9 +6,9 @@ import utils
 
 class Game:
     def __init__(self,
-                 board: typing.Optional(str) = None,
-                 is_human_white: typing.Optional(bool) = True,
-                 depth: typing.Optional(int) = 2) -> None:
+                 board: typing.Optional[str] = None,
+                 is_human_white: typing.Optional[bool] = True,
+                 depth: typing.Optional[int] = 2) -> None:
 
         self.board = chess.Board(board)
         self.is_human_white = is_human_white
@@ -29,7 +29,7 @@ class Game:
 
         return eval
 
-    def choose_move(self, board: chess.Board, depth=0) -> typing.Tuple(float,int):
+    def choose_move(self, board: chess.Board, depth=0) -> typing.Tuple[float,int]:
 
         best_eval = float('-inf')
         best_move_idx = 0
