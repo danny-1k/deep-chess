@@ -93,5 +93,21 @@ class Game:
 
         return bb
 
+
+    def is_over(self) -> bool:
+        return self.board.is_game_over()
+
+    def is_checkmate(self) -> bool:
+        return self.board.is_checkmate()
+
+    def is_draw(self) -> bool:
+        return self.board.can_claim_draw()
+
+    def is_stalemate(self) -> bool:
+        return self.board.is_stalemate()
+
+    def is_check(self) -> bool:
+        return self.board.is_check()
+
     def __repr__(self) -> str:
         return self.board.__repr__()
